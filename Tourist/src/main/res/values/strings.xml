@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ClujTourist</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="show_location">Show location</string>
+    <string name="location_updates">Start Location\nUpdates</string>
+    <string name="retrieving_address">Retrieving your address…</string>
+    <string name="get_address">Get Address</string>
+    <string name="show_on_map">Show on map</string>
+    <string name="API_KEY">AIzaSyBBfhTQC3jd742CRXqfsLsZv0GbIByJR0M</string>
+    <string name="PLACES_API_KEY">AIzaSyCT5nkEQGS16O32SoDuSTNcsLCW5bEczAM</string>
+    <string name="places">Places</string>
+    <string name="show_places_on_map">Show Places on Map</string>
+    <string name="google_places">Google Places</string>
+
+</resources>
