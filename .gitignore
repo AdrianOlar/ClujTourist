@@ -41,3 +41,4 @@ local.properties
 .gradle/1.9/taskArtifacts/cache.properties.lock
 .gradle/1.9/taskArtifacts/taskArtifacts.bin
 .idea/workspace.xml
+.idea/copyright/profiles_settings.xml

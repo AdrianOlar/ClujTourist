@@ -1,6 +1,7 @@
 package ro.adrian.tourist.ontology;
 
 import android.content.Context;
+import android.os.Environment;
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.ontology.Individual;
@@ -9,6 +10,10 @@ import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.vocabulary.DC;
 import com.hp.hpl.jena.vocabulary.OWL;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by Adrian-PC on 4/4/14.
@@ -21,7 +26,7 @@ public class OntologyTest {
             //create an empty model
             OntModel jenaModel = createModel();
             //add an empty dataset
-            Individual dataset = jenaModel.createIndividual("Dataset URI",
+            Individual dataset = jenaModel.createIndividual("DatasetURI",
                     jenaModel.getOntClass(OT.OTClass.Dataset.getNS()));
             OT.OTClass.Dataset.createOntClass(jenaModel);
             OT.OTClass.DataEntry.createOntClass(jenaModel);
@@ -51,10 +56,30 @@ public class OntologyTest {
             dataEntry.addProperty(OT.values, featureValue2);
 
             //write results
-            jenaModel.write(System.out, "RDF/XML-ABBREV");
-
+            try {
+                File newFolder = new File(Environment.getExternalStorageDirectory(), "OntologyOutput");
+                if (!newFolder.exists()) {
+                    newFolder.mkdir();
+                }
+                File file = new File(newFolder, "test" + ".txt");
+                // save the file
+                FileWriter out = null;
+                try {
+                    out = new FileWriter(file);
+                    jenaModel.write(out, "RDF/XML-ABBREV");
+                } finally {
+                    if (out != null) {
+                        try {
+                            out.close();
+                        } catch (IOException ignore) {
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("e: " + e);
+            }
         } catch (Exception e) {
-            System.out.println("EX:" + e);
+            e.printStackTrace();
         }
     }
 
