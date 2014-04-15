@@ -27,6 +27,8 @@ import ro.adrian.tourist.condesales.models.Tip;
 import ro.adrian.tourist.condesales.models.User;
 import ro.adrian.tourist.condesales.models.Venue;
 import ro.adrian.tourist.condesales.tasks.users.UserImageRequest;
+import ro.adrian.tourist.model.places.PlaceForMap;
+import ro.adrian.tourist.provider.DatabaseHelper;
 import ro.adrian.tourist.utils.Constants;
 
 /**
@@ -158,12 +160,19 @@ public class PlacesActivity extends Activity implements AccessTokenRequestListen
     }
 
     private void printTipToConsole(ArrayList<Tip> tips) {
+        ArrayList<PlaceForMap> placeForMaps = new ArrayList<PlaceForMap>();
         for (Tip t : tips) {
             Log.d(PlacesActivity.class.getCanonicalName(), t.getVenue() + " review: " + t.getText());
             tipList.add(t);
+            PlaceForMap placeForMap = new PlaceForMap();
+            placeForMap.setName(t.getVenue().getName());
+            placeForMap.setLatitude(t.getVenue().getLocation().getLat());
+            placeForMap.setLongitude(t.getVenue().getLocation().getLng());
+            placeForMaps.add(placeForMap);
         }
         TipsAdapter adapter = new TipsAdapter(PlacesActivity.this, 0, tipList);
         venueListView.setAdapter(adapter);
+        DatabaseHelper.getInstance().trySavePlaces(placeForMaps);
     }
 
 }
