@@ -139,7 +139,7 @@ public class GPlacesActivity extends Activity {
                 String types = "cafe|restaurant"; // Listing places only cafes, restaurants
 
                 // Radius in meters - increase this value if you don't find any places
-                double radius = 2000; // 1000 meters
+                double radius = 2000; // 2000 meters
 
                 // get nearest places
                 nearPlaces = googlePlaces.search(latitude,

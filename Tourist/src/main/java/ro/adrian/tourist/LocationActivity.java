@@ -20,7 +20,6 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 
 import ro.adrian.tourist.asynctasks.GetAddressTask;
-import ro.adrian.tourist.ontology.OntologyTest;
 import ro.adrian.tourist.utils.Constants;
 
 /**
@@ -134,6 +133,7 @@ public class LocationActivity extends FragmentActivity implements
         if (mUpdatesRequested) {
             mLocationClient.requestLocationUpdates(mLocationRequest, this);
         }
+        mCurrentLocation = mLocationClient.getLastLocation();
     }
 
     @Override
@@ -176,7 +176,7 @@ public class LocationActivity extends FragmentActivity implements
     }
 
     private void setBtnClicks() {
-        findViewById(R.id.show_location_btn).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.location_upd_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mEditor.putBoolean(Constants.UPDATES_ON, !mUpdatesRequested);
@@ -185,7 +185,7 @@ public class LocationActivity extends FragmentActivity implements
         findViewById(R.id.show_location_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCurrentLocation = mLocationClient.getLastLocation();
+                //mCurrentLocation = mLocationClient.getLastLocation();
                 showCurrentLocation();
             }
         });
@@ -193,7 +193,7 @@ public class LocationActivity extends FragmentActivity implements
             @Override
             public void onClick(View v) {
                 (new GetAddressTask(LocationActivity.this)).execute(mCurrentLocation);
-                OntologyTest.createAndShowOntology(LocationActivity.this);
+                //OntologyTest.createAndShowOntology(LocationActivity.this);
             }
         });
         findViewById(R.id.show_on_map_btn).setOnClickListener(new View.OnClickListener() {

@@ -6,12 +6,15 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 
+import ro.adrian.tourist.adapters.TipsAdapter;
+import ro.adrian.tourist.adapters.VenuesAdapter;
 import ro.adrian.tourist.condesales.EasyFoursquareAsync;
 import ro.adrian.tourist.condesales.criterias.TipsCriteria;
 import ro.adrian.tourist.condesales.criterias.VenuesCriteria;
@@ -37,6 +40,9 @@ public class PlacesActivity extends Activity implements AccessTokenRequestListen
     private ViewSwitcher viewSwitcher;
     private TextView userName;
     private double latitude, longitude;
+    private ArrayList<Venue> venueList = new ArrayList<Venue>();
+    private ArrayList<Tip> tipList = new ArrayList<Tip>();
+    private ListView venueListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,7 @@ public class PlacesActivity extends Activity implements AccessTokenRequestListen
         userImage = (ImageView) findViewById(R.id.imageView1);
         viewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcher1);
         userName = (TextView) findViewById(R.id.textView1);
+        venueListView = (ListView) findViewById(R.id.foursquare_place_list);
         //ask for access
         async = new EasyFoursquareAsync(this);
         async.requestAccess(this);
@@ -85,8 +92,8 @@ public class PlacesActivity extends Activity implements AccessTokenRequestListen
         });
 
         //for another example uncomment line below:
-        //requestTipsNearby(accessToken);
-        requestVenuesNearby(accessToken);
+        requestTipsNearby(accessToken);
+        //requestVenuesNearby(accessToken);
     }
 
     @Override
@@ -106,6 +113,7 @@ public class PlacesActivity extends Activity implements AccessTokenRequestListen
 
         TipsCriteria criteria = new TipsCriteria();
         criteria.setLocation(loc);
+        criteria.setQuantity(100);
         async.getTipsNearby(new TipsResquestListener() {
 
             @Override
@@ -115,12 +123,12 @@ public class PlacesActivity extends Activity implements AccessTokenRequestListen
 
             @Override
             public void onTipsFetched(ArrayList<Tip> tips) {
-                Toast.makeText(PlacesActivity.this, tips.toString(), Toast.LENGTH_LONG).show();
+                printTipToConsole(tips);
             }
         }, criteria);
     }
 
-    private void requestVenuesNearby(String accessToken){
+    private void requestVenuesNearby(String accessToken) {
         Location loc = new Location("");
         loc.setLatitude(latitude);
         loc.setLongitude(longitude);
@@ -135,15 +143,27 @@ public class PlacesActivity extends Activity implements AccessTokenRequestListen
 
             @Override
             public void onError(String errorMsg) {
-                Toast.makeText(PlacesActivity.this,"Error loading nearby venues",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlacesActivity.this, "Error loading nearby venues", Toast.LENGTH_SHORT).show();
             }
-        },criteria);
+        }, criteria);
     }
 
     private void printVenuesToConsole(ArrayList<Venue> venues) {
-        for(Venue v:venues){
-            Log.d(PlacesActivity.class.getCanonicalName(),v.getName());
+        for (Venue v : venues) {
+            Log.d(PlacesActivity.class.getCanonicalName(), v.getName());
+            venueList.add(v);
         }
+        VenuesAdapter adapter = new VenuesAdapter(PlacesActivity.this, 0, venueList);
+        venueListView.setAdapter(adapter);
+    }
+
+    private void printTipToConsole(ArrayList<Tip> tips) {
+        for (Tip t : tips) {
+            Log.d(PlacesActivity.class.getCanonicalName(), t.getVenue() + " review: " + t.getText());
+            tipList.add(t);
+        }
+        TipsAdapter adapter = new TipsAdapter(PlacesActivity.this, 0, tipList);
+        venueListView.setAdapter(adapter);
     }
 
 }

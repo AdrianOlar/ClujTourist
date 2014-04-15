@@ -1,5 +1,9 @@
 package ro.adrian.tourist.utils;
 
+import android.content.Context;
+
+import ro.adrian.tourist.ClujTouristApplication;
+
 /**
  * Created by Adrian-PC on 3/29/14.
  * Licence thesis project
@@ -24,4 +28,8 @@ public class Constants {
     public static final String KEY_LONG = "Longitude";
     public static final String KEY_LAT = "Latitude";
     public static final String GOOGLE_PLACES_API_KEY = "AIzaSyCT5nkEQGS16O32SoDuSTNcsLCW5bEczAM";
+
+    public static Context getContext(){
+        return ClujTouristApplication.getAppContext();
+    }
 }

@@ -15,6 +15,8 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;;
 
+import java.util.ArrayList;
+
 import ro.adrian.tourist.model.places.PlaceDetails;
 import ro.adrian.tourist.model.places.PlaceList;
 
@@ -96,9 +98,9 @@ public class GooglePlaces {
             request.getUrl().put("reference", reference);
             request.getUrl().put("sensor", "false");
 
-            PlaceDetails place = request.execute().parseAs(PlaceDetails.class);
+            Log.e("Google places", request.getUrl().toString());
 
-            return place;
+            return request.execute().parseAs(PlaceDetails.class);
 
         } catch (HttpResponseException e) {
             Log.e("Error in Perform Details", e.getMessage());
@@ -120,5 +122,4 @@ public class GooglePlaces {
             }
         });
     }
-
 }

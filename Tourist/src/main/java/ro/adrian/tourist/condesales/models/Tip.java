@@ -84,4 +84,8 @@ public class Tip {
 		this.user = user;
 	}
 
+    @Override
+    public String toString() {
+        return getText();
+    }
 }

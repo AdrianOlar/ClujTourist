@@ -51,5 +51,12 @@
         android:layout_marginTop="15dip"
         android:layout_marginBottom="5dip" />
 
+    <TextView
+        android:id="@+id/reviews"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp" />
+
 
 </LinearLayout>
